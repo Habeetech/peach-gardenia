@@ -33,8 +33,8 @@ Privacy and dignity are paramount here. You're not putting kids on display — y
 ## Getting Started
 
 ### Prerequisites
-- Node.js >= 24.0.0 (Use `node -v` to see your currently installed version)
-- pnpm >= 10.28.2 (Use `pnpm -v` to see your currently installed version)
+- Node.js >= 24.0.0 (Use `node -v` to check your version)
+- pnpm >= 10.28.2 (Use `pnpm -v` to check your version)
 
 ### Clone the repository
 
@@ -42,10 +42,11 @@ Privacy and dignity are paramount here. You're not putting kids on display — y
 git clone https://github.com/nhcarrigan-spring-2026-cohort/peach-gardenia.git
 cd peach-gardenia
 ```
-> Note: To contribute to the project, you must fork the repository and make a feature branch inside your forked repository and merge the feature branch into your forked main branch and submit a pull request for review. See [Contributing Guide](./CONTRIBUTING.md) for further information.
+
+> Note: To contribute, fork this repository, create a feature branch in your fork, push your changes, merge into your fork’s main branch, then open a pull request to this repository for review.
 
 ### Frontend
-The frontend lives in [`client/`](./client/)
+The frontend lives in `client/`.
 
 Install dependencies:
 
@@ -109,6 +110,7 @@ pnpm test --watch
 - [pnpm](https://pnpm.io)
 
 ## Project Structure
+
 ```
 .
 ├── README.md                           # Project documentation
