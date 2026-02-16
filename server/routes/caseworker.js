@@ -1,3 +1,4 @@
+const { formValidation } = require("../helpers/formValidation")
 const express = require('express');
 const router = express.Router();
 const nodemailer = require('nodemailer')
@@ -24,40 +25,14 @@ router
 
   //Caseworker contact form - post route
   .post('/requestform', (req, res) => {
-    console.log(req.body)
-    /*const transporter = nodemailer.createTransport({
-  host: process.env.SMTP_HOST,
-  port: Number(process.env.SMTP_PORT),
-  secure: process.env.SMTP_SECURE === "true",
-  auth: {
-    user: process.env.SMTP_USER,
-    pass: process.env.SMTP_PASS
-  }
-})
-
-    const emailText = `
-New Caseworker Registration Request:
-
-Name: ${req.body.firstName} ${req.body.lastName}
-Phone: ${req.body.phoneNumber}
-Email: ${req.body.email}
-
-Organisation:
-${req.body.orgName}
-${req.body.orgAddress1}
-${req.body.orgCity}, ${req.body.orgCounty}
-${req.body.orgCountry}
-
-Additional Info:
-${req.body.additionalInfo || "None"}
-`
-await transporter.sendMail({
-  from: '"Peach Gardenia" <admin@peachgardenia.com>',
-  to: 'placeholder_email@peachgardenia.com',
-  subject: 'New Caseworker Registartion Request',
-  text: emailText
-}) */
-    res.json({ message: "Account creation request recieved" })
+    const validate = formValidation(req.body);
+    if (validate)
+    {
+      res.redirect("http://localhost:5173/caseworker/requestform?status=success")
+    } 
+    else {
+      res.redirect("http://localhost:5173/caseworker/requestform?status=error")
+    } 
   })
 
   //All wishlists that are related to caseworker id

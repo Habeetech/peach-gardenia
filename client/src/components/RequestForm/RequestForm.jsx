@@ -4,33 +4,40 @@ import { PhoneField } from './PhoneField'
 import { CountrySelect } from './CountrySelect'
 import { CheckboxField } from './CheckboxField'
 import { TextAreaField } from './TextAreaField'
+import { useState } from 'react'
+import { useEffect } from 'react'
 
-async function handleSubmit(event) {
-    event.preventDefault()
-    const formData = new FormData(event.currentTarget)
-    const caseworkersDetails = JSON.stringify(Object.fromEntries(formData))
-
-    try {
-        const response = await fetch('http://localhost:3000/caseworker/requestform', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: caseworkersDetails
-        })
-
-        if (!response.ok) {
-            throw new Error(`Http error status: ${response.status}`)
-        }
-
-        const result = await response.json()
-        console.log(result)
-    } catch (error) {
-        console.error('Error: ', error)
-    }
-}
 
 export function RequestForm() {
+
+    const [confirmationMessage, setconfirmationMessage] = useState("")
+    const [status, setStatus] = useState("")
+    useEffect(() => {
+        const params = new URLSearchParams(window.location.search)
+        const s = params.get("status")
+
+        if (!s)
+            return;
+
+        setStatus(s)
+        if (s == "success") {
+            setconfirmationMessage("Your request has been submitted and will be reviewed. We'll get back to you as soon as a decision has been made. Thanks")
+        }
+        else if (s == "error") {
+            setconfirmationMessage("An error occour while processing your request. Please ensure all fields are entered correctly.")
+        }
+    }, [])
+
+
+
     return (
         <div className="form-wrapper">
+            {confirmationMessage && <div className={`confirmationMessage ${
+      status === "success" ? "success" : "error"
+    }`}>
+                {confirmationMessage}
+                <button onClick={() => setconfirmationMessage("")}>Dismiss</button>
+            </div>}
             <h2 className="form-title">Caseworker's Request Form</h2>
 
             <p className="form-intro">
@@ -39,9 +46,9 @@ export function RequestForm() {
                 Please fill in your details below and we shall get back to you as soon as your request has been accepted.
             </p>
 
-            <form aria-describedby="form-intro" method="POST" onSubmit={handleSubmit}>
-                
-             
+            <form aria-describedby="form-intro" method="POST" action="http://localhost:3000/caseworker/requestform">
+
+
                 <fieldset>
                     <legend>Personal Information</legend>
 
@@ -82,7 +89,7 @@ export function RequestForm() {
                     <CountrySelect />
                 </fieldset>
 
-          
+
                 <fieldset>
                     <legend>Organisation Information</legend>
 
