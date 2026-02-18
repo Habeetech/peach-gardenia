@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "cors": "^2.8.6",
+    "@sequelize/sqlite3": "7.0.0-alpha.48",
     "express": "^5.2.1",
     "nodemailer": "^8.0.1",
     "sequelize": "^6.37.7",
@@ -21,6 +22,7 @@
   "devDependencies": {
     "cypress": "^15.9.0",
     "jest": "^30.2.0",
-    "nodemon": "^3.1.11"
+    "nodemon": "^3.1.11",
+    "sequelize-cli": "^6.6.5"
   }
 }
