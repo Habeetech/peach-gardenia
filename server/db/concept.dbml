@@ -13,26 +13,31 @@ Table organisations {
     tel varchar(30)
 }
 
+Table branches {
+  id int [PK, increment]
+  organization int [ref: > organisations.id]
+  name varchar(200)
+  address int [ref: > addresses.id]
+}
+
 Table addresses {
   id int [PK, increment]
-    row_1 text
-    row_2 text
-    city text
-    state_county varchar(50)
-    zip_code varchar(15)
-    country varchar(50)
-    locale varchar(10)
-    address_type t_address
-    local_email varchar(500)
-    local_tel varchar(30)
+  row_1 text
+  row_2 text
+  city text
+  state_county varchar(50)
+  zip_code varchar(15)
+  country varchar(50)
+  locale varchar(10)
+  address_type t_address
+  local_email varchar(500)
+  local_tel varchar(30)
 }
 
 Table case_workers {
   id int [PK, increment]
   first_name varchar(200)
-    last_name varchar(200)
-    organisation_id int
-    address_id int
+  last_name varchar(200)
 }
 
 Table wishlists {
@@ -72,22 +77,35 @@ Table wishlist_item_status {
     (wishlist_item_id, status) [unique]
   }
   checks {
-    `quantity >= 0` [name: 'gtoeq_to_zero']
+   `quantity >= 0` [name: 'gtoeq_to_zero']
   }
 }
 
-Table organization_addresses {
-  organization_id int [ref: > organisations.id]
-  address_id int [ref: > addresses.id]
+
+
+Table case_worker_branches {
+  case_worker_id int [ref: > case_workers.id]
+  branch_id int [ref: > branches.id]
 
   indexes {
-    (organization_id, address_id) [pk]
+    (case_worker_id, branch_id) [pk]
   }
 }
 
+/*
+  many to many
+  many case workers can belong to many organisations
+  many addresses can belong to many case workers
 
-Ref Case_worker_company: case_workers.organisation_id - organisations.id
+  one to many
+  many addresses can belong to an organisation,
+  but only one organisation can be associated with an address.
+*/
+
+
 Ref Case_worker_wishlists: wishlists.case_worker_id > case_workers.id
 Ref Wishlist_url_referrer: wishlist_urls.wishlist_id <> wishlists.id
 Ref Wishlist_item_referrer: wishlist_items.wishlist_id <> wishlists.id
 Ref Item_status_refer_wishlist_item: wishlist_item_status.wishlist_item_id < wishlist_items.id
+
+Ref: "wishlist_items"."id" < "wishlist_items"."wishlist_id"
