@@ -25,20 +25,48 @@ router
   })
 
   //Caseworker contact form - post route
-  .post ('/requestform', async (req, res) => {
+  .post('/requestform', async (req, res) => {
     try {
       const validate = formValidation(req.body);
-    if (validate)
-    {
-      await AccountRequest.create(req.body);
-      res.redirect("http://localhost:5173/caseworker/requestform?status=success")
-    } 
-    else {
+      if (validate) {
+        const payload = {
+          firstName: req.body.firstName,
+          lastName: req.body.lastName,
+          phoneNumber: req.body.coutryCode + req.body.phoneNumber,
+          email: req.body.email,
+          addressLine1: req.body.addressLine1,
+          addressLine2: req.body.addressLine2,
+          city: req.body.city,
+          stateOrCounty: req.body["state/County"],
+          zipCode: req.body.zipCode,
+          country: req.body.country,
+
+          organisationName: req.body.organisationName,
+          organisationPhoneNumber: req.body.orgCountryCode + req.body.orgPhoneNumber,
+          organisationEmail: req.body.organisationEmail,
+          organisationAddressLine1: req.body.organisationAddressLine1,
+          organisationAddressLine2: req.body.organisationAddressLine2,
+          organisationCity: req.body.organisationCity,
+          organisationStateOrCounty: req.body["organisationState/County"],
+          organisationZipCode: req.body.organisationZipCode,
+          organisationCountry: req.body.orgCountry,
+
+          additionalInformation: req.body.additionalInfo,
+          termsAndConditions: req.body.termsConditions === "yes"
+        };
+
+        await AccountRequest.create(payload);
+        console.log("Account request saved to the database successfully");
+        res.redirect("http://localhost:5173/caseworker/requestform?status=success")
+      }
+      else {
+        res.redirect("http://localhost:5173/caseworker/requestform?status=error")
+      }
+    } catch (e) {
+
       res.redirect("http://localhost:5173/caseworker/requestform?status=error")
-    } 
-  } catch (e) {
-    console.log("Error adding account request to the AccountRequests Table in the database: " + e.message)
-  }
+      console.log("Error adding account request to the AccountRequests Table in the database: " + e.message)
+    }
   })
 
   //All wishlists that are related to caseworker id

@@ -1,4 +1,5 @@
 const { sequelize } = require("../database");
+const { DataTypes } = require("sequelize");
 
 const AccountRequest = sequelize.define(
     'AccountRequest',
@@ -50,40 +51,40 @@ const AccountRequest = sequelize.define(
             type: DataTypes.STRING(50),
             allowNull: false,
         },
-        organizationName: {
+        organisationName: {
             type: DataTypes.STRING(50),
             allowNull: false,
         },
-        organizationPhoneNumber: {
+        organisationPhoneNumber: {
             type: DataTypes.STRING(50),
             allowNull: false,
             unique: true
         },
-        organizationEmail: {
+        organisationEmail: {
             type: DataTypes.STRING(100),
             allowNull: false,
             unique: true
         },
-        organizationAddressLine1: {
+        organisationAddressLine1: {
             type: DataTypes.STRING,
             allowNull: false,
         },
-         organizationAddressLine2: {
+         organisationAddressLine2: {
             type: DataTypes.STRING,
         }, 
-        organizationCity: {
+        organisationCity: {
             type: DataTypes.STRING(50),
             allowNull: false,
         },
-        organizationStateOrCounty: {
+        organisationStateOrCounty: {
             type: DataTypes.STRING(50),
             allowNull: false,
         },
-        organizationZipCode: {
+        organisationZipCode: {
             type: DataTypes.STRING(50),
             allowNull: false,
         },
-        organizationCountry: {
+        organisationCountry: {
             type: DataTypes.STRING(50),
             allowNull: false,
         },
@@ -99,3 +100,5 @@ const AccountRequest = sequelize.define(
 (async () => {
     await AccountRequest.sync();
 })();
+
+module.exports = { AccountRequest };
